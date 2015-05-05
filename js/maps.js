@@ -1,4 +1,5 @@
 "use strict";
+var map;
 var gpsArray = [
 {
 	name: "Gps-1",
@@ -18,6 +19,7 @@ var gpsArray = [
 	lat: 25.165173368663954, lng: -76.552734375
 }];
 var markers = [];
+var polyLines = [];
 
 var iconStyle = {
 	"boat": "img/motor-boat-min.png",
@@ -59,7 +61,7 @@ function init() {
 			mapTypeIds: [google.maps.MapTypeId.HYBRID, 'map_style']
 		}
 	};
-	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	map.mapTypes.set('map_style', initStyledMap());
 	//map.setMapTypeId('map_style');
 	var bounds = zoomControl();
@@ -106,6 +108,31 @@ function zoomControl() {
 		bounds.extend(new google.maps.LatLng(gpsArray[i].lat, gpsArray[i].lng));
 	}
 	return bounds;
+}
+
+function drawLine(lat1, lng1, lat2, lng2) {
+	var linePath = [
+		new google.maps.LatLng(lat1, lng1),
+		new google.maps.LatLng(lat2, lng2)
+	];
+
+	var line = new google.maps.Polyline({
+		path: linePath,
+		geodesic: true,
+		strokeColor: '#FF0000',
+		strokeOpacity: 1.0,
+		strokeWeight: 3
+	});
+	polyLines.push(line);
+
+	line.setMap(map);
+}
+
+function clearLines() {
+	for (var i = 0; i < polyLines.length; i++) {
+		polyLines[i].setMap(null);
+	}
+	polyLines = [];
 }
 
 google.maps.event.addDomListener(window, 'load', init);
