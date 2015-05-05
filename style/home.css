@@ -18,3 +18,7 @@ html, body {
 	margin-right:auto;
 }
 
+.colored:hover {
+	background-color: #99CCFF;
+}
+
