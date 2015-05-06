@@ -12,20 +12,24 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 }
 
 function getGreatCircleDistance(lat1, lon1, lat2, lon2) {
+	// The great circle distance d between two points with coordinates {lat1,lon1} and {lat2,lon2} is given by:
+	// d=acos(sin(lat1)*sin(lat2)+cos(lat1)*cos(lat2)*cos(lon1-lon2))
+
+	// A mathematically equivalent formula, which is less subject to rounding error for short distances is:
 	// d=2*asin(sqrt((sin((lat1-lat2)/2))^2 + cos(lat1)*cos(lat2)*(sin((lon1-lon2)/2))^2))
-	var dLat = deg2rad(lat1 - lat2);
-	var dLon = deg2rad(lon1 - lon2);
-	return 2*Math.asin(Math.sqrt(Math.pow((Math.sin(dLat/2), 2) + 
-	Math.cos(deg2rad(lat1))*Math.cos(deg2rad(lat2))*Math.pow(Math.sin(dLon/2), 2))));
+
+	var dLat = lat1 - lat2;
+	var dLon = lon1 - lon2;
+	return 2*Math.asin(Math.sqrt(Math.pow(Math.sin((dLat)/2), 2) + Math.cos(lat1)*Math.cos(lat2)*Math.pow(Math.sin((dLon)/2), 2)));
 }
 
 function deg2rad(deg) {
-  return deg*(Math.PI/180)
+	return deg*(Math.PI/180)
 }
 
 function numberWithCommas(x) {
 	var parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-    //return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return parts.join(".");
+	//return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
