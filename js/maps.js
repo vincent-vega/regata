@@ -1,5 +1,5 @@
 "use strict";
-var map;
+var map = map || {};
 var gpsArray = [
 {
 	name: "Gps-1",
@@ -18,8 +18,8 @@ var gpsArray = [
 	type: "boat",
 	lat: 25.165173368663954, lng: -76.552734375
 }];
-var markers = [];
-var polyLines = [];
+var markers = markers || [];
+var polyLines = polyLines || {};
 
 var iconStyle = {
 	"boat": "img/motor-boat-min.png",
@@ -110,7 +110,10 @@ function zoomControl() {
 	return bounds;
 }
 
-function drawLine(lat1, lng1, lat2, lng2) {
+function drawLine(lat1, lng1, lat2, lng2, label) {
+	if (polyLines[label]) {
+		polyLines[label].setMap(null);
+	}
 	var linePath = [
 		new google.maps.LatLng(lat1, lng1),
 		new google.maps.LatLng(lat2, lng2)
@@ -123,16 +126,21 @@ function drawLine(lat1, lng1, lat2, lng2) {
 		strokeOpacity: 1.0,
 		strokeWeight: 3
 	});
-	polyLines.push(line);
-
 	line.setMap(map);
+	polyLines[label] = line;
+}
+
+function clearLine(label) {
+	if (polyLines[label]) {
+		polyLines[label].setMap(null);
+	}
 }
 
 function clearLines() {
-	for (var i = 0; i < polyLines.length; i++) {
-		polyLines[i].setMap(null);
+	for (var key in polyLines) {
+		polyLines[key].setMap(null);
 	}
-	polyLines = [];
+	polyLines = {};
 }
 
 google.maps.event.addDomListener(window, 'load', init);

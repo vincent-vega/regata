@@ -20,7 +20,7 @@
 				<strong>Perimeter:</strong>
 				{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
 			</li>
-			<li class="list-group-item" ng-repeat="(key, value) in statistics.distances">
+			<li class="colored list-group-item" ng-repeat="(key, value) in statistics.distances" ng-model="gpsData[value.start].present" ng-init="gpsData[value.start].present=false;" ng-click="drawPath(gpsData[value.start], value.start, value.end)">
 				<strong>
 					{{ value.start }} - {{ value.end }}:
 				</strong>
