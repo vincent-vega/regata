@@ -1,5 +1,7 @@
 "use strict";
 var map = map || {};
+var markers = markers || [];
+var polyLines = polyLines || {};
 var gpsArray = [
 {
 	name: "Gps-1",
@@ -18,8 +20,6 @@ var gpsArray = [
 	type: "boat",
 	lat: 25.165173368663954, lng: -76.552734375
 }];
-var markers = markers || [];
-var polyLines = polyLines || {};
 
 var iconStyle = {
 	"boat": {
@@ -121,7 +121,7 @@ function zoomControl() {
 }
 
 function drawLine(lat1, lng1, lat2, lng2, label) {
-	if (polyLines[label]) {
+	if (label in polyLines) {
 		polyLines[label].setMap(null);
 	}
 	var linePath = [
