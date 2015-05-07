@@ -22,8 +22,14 @@ var markers = markers || [];
 var polyLines = polyLines || {};
 
 var iconStyle = {
-	"boat": "img/motor-boat-min.png",
-	"buoy": "img/map-marker-20.png"
+	"boat": {
+		url: "img/motor-boat-min.png",
+		position: new google.maps.Point(15, 15)
+	},
+	"buoy": {
+		url:"img/map-marker-20.png",
+		position: new google.maps.Point(10, 25)
+	}
 };
 
 function initStyledMap() {
@@ -85,11 +91,15 @@ function init() {
 	}());
 
 	function addMarker(position, elem) {
+		var markerIcon = {
+			url: iconStyle[elem.type]["url"],
+			anchor: iconStyle[elem.type]["position"]
+		}
 		markers.push(new google.maps.Marker({
 			position: position,
 			title: elem.name,
 			map: map,
-			icon: iconStyle[elem.type],
+			icon: markerIcon,
 			animation: google.maps.Animation.DROP
 		}));
 	}
