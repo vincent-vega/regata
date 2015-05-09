@@ -1,8 +1,8 @@
 "use strict";
-var map = map || {};
-var markers = markers || [];
-var polyLines = polyLines || {};
-var gpsArray = [
+var map = map || {},
+    markers = markers || [],
+    polyLines = polyLines || {},
+    gpsArray = [
 {
 	name: "Gps-1",
 	type: "buoy",
@@ -19,9 +19,9 @@ var gpsArray = [
 	name: "Jury-Boat",
 	type: "boat",
 	lat: 25.165173368663954, lng: -76.552734375
-}];
+}],
 
-var iconStyle = {
+iconStyle = {
 	"boat": {
 		url: "img/motor-boat-min.png",
 		position: new google.maps.Point(15, 15)
@@ -66,11 +66,11 @@ function init() {
 			//mapTypeIds: [google.maps.MapTypeId.SATELLITE, 'map_style']
 			mapTypeIds: [google.maps.MapTypeId.HYBRID, 'map_style']
 		}
-	};
+	},
+	    bounds = zoomControl();
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	map.mapTypes.set('map_style', initStyledMap());
 	//map.setMapTypeId('map_style');
-	var bounds = zoomControl();
 	map.fitBounds(bounds);
 	map.panToBounds(bounds);
 
@@ -81,10 +81,13 @@ function init() {
 
 	// Initialize Markers
 	(function () {
+		var i,
+		    lat,
+		    lng;
 		clearMarkers();
-		for (var i = 0; i < gpsArray.length; i++) {
-			var lat = gpsArray[i].lat;
-			var lng = gpsArray[i].lng;
+		for (i = 0; i < gpsArray.length; i++) {
+			lat = gpsArray[i].lat,
+			lng = gpsArray[i].lng;
 			//console.log("i: " + i + " Lat: " + lat + "; Long: " + lng); // XXX debug
 			addMarker(new google.maps.LatLng(lat, lng), gpsArray[i]);
 		}
@@ -113,8 +116,9 @@ function init() {
 }
 
 function zoomControl() {
-	var bounds = new google.maps.LatLngBounds();
-	for (var i = 0; i < gpsArray.length; i++) {
+	var bounds = new google.maps.LatLngBounds(),
+	    i;
+	for (i = 0; i < gpsArray.length; i++) {
 		bounds.extend(new google.maps.LatLng(gpsArray[i].lat, gpsArray[i].lng));
 	}
 	return bounds;
@@ -127,9 +131,9 @@ function drawLine(lat1, lng1, lat2, lng2, label) {
 	var linePath = [
 		new google.maps.LatLng(lat1, lng1),
 		new google.maps.LatLng(lat2, lng2)
-	];
+	],
 
-	var line = new google.maps.Polyline({
+	line = new google.maps.Polyline({
 		path: linePath,
 		geodesic: true,
 		strokeColor: '#FF0000',
