@@ -2,24 +2,26 @@
 var map = map || {},
     markers = markers || [],
     polyLines = polyLines || {},
-    gpsArray = [
-{
-	name: "Gps-1",
-	type: "buoy",
-	lat: 32.199904, lng: -78.783251
-},{
-	name: "Gps-2",
-	type: "buoy",
-	lat: 29.6880527498568, lng: -87.802734375
-},{
-	name: "Gps-3",
-	type: "buoy",
-	lat: 22.06527806776582, lng: -87.8466796875
-},{
-	name: "Jury-Boat",
-	type: "boat",
-	lat: 25.165173368663954, lng: -76.552734375
-}],
+
+gpsArray = [
+	{
+		name: "Gps-1",
+		type: "buoy",
+		lat: 32.199904, lng: -78.783251
+	},{
+		name: "Gps-2",
+		type: "buoy",
+		lat: 29.6880527498568, lng: -87.802734375
+	},{
+		name: "Gps-3",
+		type: "buoy",
+		lat: 22.06527806776582, lng: -87.8466796875
+	},{
+		name: "Jury-Boat",
+		type: "boat",
+		lat: 25.165173368663954, lng: -76.552734375
+	}
+],
 
 iconStyle = {
 	"boat": {
@@ -32,33 +34,34 @@ iconStyle = {
 	}
 };
 
-function initStyledMap() {
-	var styles = [
-	{
-		stylers: [
-			{ hue: "#00ffe6" },
-			{ saturation: -20 }
-		]
-	},{
-		featureType: "road",
-		elementType: "geometry",
-		stylers: [
-			{ lightness: 100 },
-			{ visibility: "simplified" }
-		]
-	},{
-		featureType: "road",
-		elementType: "labels",
-		stylers: [
-			{ visibility: "off" }
-		]
-	}];
-	// Create a new StyledMapType object, passing it the array of styles,
-	// as well as the name to be displayed on the map type control.
-	return new google.maps.StyledMapType(styles, {name: "Dart style Map"});
-}
-
 function init() {
+	function initStyledMap() {
+		var styles = [
+			{
+				stylers: [
+					{ hue: "#00ffe6" },
+					{ saturation: -20 }
+				]
+			},{
+				featureType: "road",
+				elementType: "geometry",
+				stylers: [
+					{ lightness: 100 },
+					{ visibility: "simplified" }
+				]
+			},{
+				featureType: "road",
+				elementType: "labels",
+				stylers: [
+					{ visibility: "off" }
+				]
+			}
+		];
+		// Create a new StyledMapType object, passing it the array of styles,
+		// as well as the name to be displayed on the map type control.
+		return new google.maps.StyledMapType(styles, {name: "Dart style Map"});
+	}
+
 	var mapOptions = {
 		mapTypeControlOptions: {
 			//mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
@@ -82,10 +85,11 @@ function init() {
 	// Initialize Markers
 	(function () {
 		var i,
+		    len,
 		    lat,
 		    lng;
 		clearMarkers();
-		for (i = 0; i < gpsArray.length; i++) {
+		for (i = 0, len = gpsArray.length; i < len; i++) {
 			lat = gpsArray[i].lat,
 			lng = gpsArray[i].lng;
 			//console.log("i: " + i + " Lat: " + lat + "; Long: " + lng); // XXX debug
@@ -108,7 +112,7 @@ function init() {
 	}
 
 	function clearMarkers() {
-		for (var i = 0; i < markers.length; i++) {
+		for (var i = 0, len = markers.length; i < len; i++) {
 			markers[i].setMap(null);
 		}
 		markers = [];
@@ -117,14 +121,16 @@ function init() {
 
 function zoomControl() {
 	var bounds = new google.maps.LatLngBounds(),
-	    i;
-	for (i = 0; i < gpsArray.length; i++) {
+	    i,
+	    len;
+	for (i = 0, len = gpsArray.length; i < len; i++) {
 		bounds.extend(new google.maps.LatLng(gpsArray[i].lat, gpsArray[i].lng));
 	}
 	return bounds;
 }
 
 function drawLine(lat1, lng1, lat2, lng2, label) {
+	console.log(lat1 + "," + lng1 + "," + lat2 + "," + lng2 + "," + label);
 	if (label in polyLines) {
 		polyLines[label].setMap(null);
 	}

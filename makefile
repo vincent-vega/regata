@@ -13,8 +13,7 @@ JS_MINIFIED = $(JS_FILES:.js=-min.js)
 YUI_COMPRESSOR = java -jar ./lib/yuicompressor-2.4.8.jar
 YUI_COMPRESSOR_FLAGS = --charset utf-8 --verbose
 
-#minify: minify-css minify-js
-minify: minify-js
+minify: minify-css minify-js
 
 # target: minify-css - Minifies CSS.
 minify-css: $(CSS_FILES) $(CSS_MINIFIED)
