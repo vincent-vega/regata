@@ -1,10 +1,10 @@
 "use strict";
-var dart = dart || {
-	map: {},
-	markers: [],
-	polyLines: {},
-	gpsArray: [],
-	iconStyle: {
+function Dart() {
+	this.map = {};
+	this.markers = [];
+	this.polyLines = {};
+	this.gpsArray = [];
+	this.iconStyle = {
 		"boat": {
 			url: "img/motor-boat-min.png",
 			position: new google.maps.Point(15, 15)
@@ -13,74 +13,80 @@ var dart = dart || {
 			url:"img/map-marker-20.png",
 			position: new google.maps.Point(10, 25)
 		}
-	},
+	};
+}
 
-	fitMapZoom: function() {
-		var bounds = new google.maps.LatLngBounds(),
-			i,
-			len = this.gpsArray.length;
-		if (len > 0) {
-			for (i = 0; i < len; i++) {
-				bounds.extend(new google.maps.LatLng(this.gpsArray[i].lat,
-				                                     this.gpsArray[i].lng));
-			}
-			this.map.fitBounds(bounds);
-			this.map.panToBounds(bounds);
+Dart.prototype.fitMapZoom = function() {
+	var bounds = new google.maps.LatLngBounds(),
+		i,
+		len = this.gpsArray.length;
+	if (len > 0) {
+		for (i = 0; i < len; i++) {
+			bounds.extend(new google.maps.LatLng(this.gpsArray[i].lat,
+			                                     this.gpsArray[i].lng));
 		}
-	},
-
-	addMarker: function(position, elem) {
-		var markerIcon = {
-			url: this.iconStyle[elem.type]["url"],
-			anchor: this.iconStyle[elem.type]["position"]
-		}
-		this.markers.push(new google.maps.Marker({
-			position: position,
-			title: elem.name,
-			map: this.map,
-			icon: markerIcon,
-			animation: google.maps.Animation.DROP
-		}));
-	},
-
-	clearMarkers: function() {
-		for (var i = 0, len = this.markers.length; i < len; i++) {
-			this.markers[i].setMap(null);
-		}
-		this.markers = [];
-	},
-
-	clearLines: function() {
-		for (var key in this.polyLines) {
-			this.polyLines[key].setMap(null);
-		}
-		this.polyLines = {};
-	},
-
-	drawLine: function(lat1, lng1, lat2, lng2, label) {
-		if (label in this.polyLines) {
-			this.polyLines[label].setMap(null);
-		}
-		var line = new google.maps.Polyline({
-			path: [
-				new google.maps.LatLng(lat1, lng1),
-				new google.maps.LatLng(lat2, lng2)
-			],
-			geodesic: true,
-			strokeColor: '#FF0000',
-			strokeOpacity: 1.0,
-			strokeWeight: 3
-		});
-		line.setMap(this.map);
-		this.polyLines[label] = line;
-	},
-
-	clearLine: function(label) {
-		if (this.polyLines[label]) {
-			this.polyLines[label].setMap(null);
-		}
+		this.map.fitBounds(bounds);
+		this.map.panToBounds(bounds);
 	}
 };
+
+Dart.prototype.addMarker = function(position, elem) {
+	var markerIcon = {
+		url: this.iconStyle[elem.type]["url"],
+		anchor: this.iconStyle[elem.type]["position"]
+	}
+	this.markers.push(new google.maps.Marker({
+		position: position,
+		title: elem.name,
+		map: this.map,
+		icon: markerIcon,
+		animation: google.maps.Animation.DROP
+	}));
+};
+
+Dart.prototype.clearMarkers = function() {
+	for (var i = 0, len = this.markers.length; i < len; i++) {
+		this.markers[i].setMap(null);
+	}
+	this.markers = [];
+};
+
+Dart.prototype.clearLines = function() {
+	for (var key in this.polyLines) {
+		this.polyLines[key].setMap(null);
+	}
+	this.polyLines = {};
+};
+
+Dart.prototype.drawLine = function(lat1, lng1, lat2, lng2, label) {
+	if (label in this.polyLines) {
+		this.polyLines[label].setMap(null);
+	}
+	var line = new google.maps.Polyline({
+		path: [
+			new google.maps.LatLng(lat1, lng1),
+			new google.maps.LatLng(lat2, lng2)
+		],
+		geodesic: true,
+		strokeColor: '#FF0000',
+		strokeOpacity: 1.0,
+		strokeWeight: 3
+	});
+	line.setMap(this.map);
+	this.polyLines[label] = line;
+};
+
+Dart.prototype.clearLine = function(label) {
+	if (this.polyLines[label]) {
+		this.polyLines[label].setMap(null);
+	}
+};
+
+if (dart) {
+	console.log("Defined!");
+}
+
+var dart = dart || new Dart();
 
 function init() {
 	function initStyledMap() {
