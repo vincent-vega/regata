@@ -14,19 +14,21 @@
 	</head>
 	<body ng-app="regata">
 		<div id="map-canvas"></div>
-		<ul ng-controller="homeController" id="statistics" class="list-group">
-			<li class="list-group-item active">Statistics</li>
-			<li class="list-group-item">
-				<strong>Perimeter:</strong>
-				{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
-			</li>
-			<li class="colored list-group-item" ng-repeat="(key, value) in statistics.distances" ng-model="gpsData[value.start].present" ng-init="gpsData[value.start].present=false;" ng-click="drawPath(gpsData[value.start], value.start, value.end)">
-				<strong>
-					{{ value.start }} - {{ value.end }}:
-				</strong>
-				{{ value.lenKm }} Km ({{ value.lenM }} m)
-			</li>
-		</ul>
+		<div ng-controller="homeController">
+			<ul id="statistics" class="list-group">
+				<li class="list-group-item active">Statistics</li>
+				<li class="list-group-item">
+					<strong>Perimeter:</strong>
+					{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
+				</li>
+				<li class="colored list-group-item" ng-repeat="(key, value) in statistics.distances" ng-model="gpsData[value.start].present" ng-init="gpsData[value.start].present=false;" ng-click="drawPath(gpsData[value.start], value.start, value.end)">
+					<strong>
+						{{ value.start }} - {{ value.end }}:
+					</strong>
+					{{ value.lenKm }} Km ({{ value.lenM }} m)
+				</li>
+			</ul>
+		</div>
 		<script src="js/maps-min.js"></script>
 		<script src="js/math-min.js"></script>
 		<script src="js/controllers/controller-min.js"></script>
