@@ -20,11 +20,11 @@ Dart.prototype.fitMapZoom = function() {
 	var bounds = new google.maps.LatLngBounds(),
 		i,
 		len = this.gpsArray.length;
+	for (i = 0; i < len; i++) {
+		bounds.extend(new google.maps.LatLng(this.gpsArray[i].lat,
+												this.gpsArray[i].lng));
+	}
 	if (len > 0) {
-		for (i = 0; i < len; i++) {
-			bounds.extend(new google.maps.LatLng(this.gpsArray[i].lat,
-			                                     this.gpsArray[i].lng));
-		}
 		this.map.fitBounds(bounds);
 		this.map.panToBounds(bounds);
 	}

@@ -14,20 +14,42 @@
 	</head>
 	<body ng-app="regata">
 		<div id="map-canvas"></div>
-		<div ng-controller="homeController">
-			<ul id="statistics" class="list-group">
-				<li class="list-group-item active">Statistics</li>
-				<li class="list-group-item">
-					<strong>Perimeter:</strong>
-					{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
-				</li>
-				<li class="colored list-group-item" ng-repeat="(key, value) in statistics.distances" ng-model="gpsData[value.start].present" ng-init="gpsData[value.start].present=false;" ng-click="drawPath(gpsData[value.start], value.start, value.end)">
-					<strong>
-						{{ value.start }} - {{ value.end }}:
-					</strong>
-					{{ value.lenKm }} Km ({{ value.lenM }} m)
-				</li>
-			</ul>
+		<div class="bottom-row" ng-controller="homeController">
+			<div class="left">
+				<ul id="statistics" class="list-group">
+					<li class="list-group-item active">
+						<h4 class="list-group-item-heading">
+							Statistics
+						</h4>
+					</li>
+					<li class="list-group-item">
+						<strong>Perimeter:</strong>
+						{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
+					</li>
+					<li class="colored list-group-item" ng-repeat="(key, value) in statistics.distances" ng-model="gpsData[value.start].present" ng-init="gpsData[value.start].present=false;" ng-click="drawPath(gpsData[value.start], value.start, value.end)">
+						<strong>
+							{{ value.start }} - {{ value.end }}:
+						</strong>
+						{{ value.lenKm }} Km ({{ value.lenM }} m)
+					</li>
+				</ul>
+			</div>
+			<div class="right">
+				<div class="banner">
+					<div class="alert alert-success" role="alert">
+						<strong>Last Update:</strong>
+					</div>
+					<div class="alert alert-info" role="alert">
+						<strong>Connecting with Base Control...</strong>
+					</div>
+					<div class="alert alert-warning" role="alert">
+						<strong>Problems...</strong>
+					</div>
+					<div class="alert alert-danger" role="alert">
+						<strong>Unable to contact Base Control...</strong>
+					</div>
+				</div>
+			</div>
 		</div>
 		<script src="js/maps-min.js"></script>
 		<script src="js/math-min.js"></script>

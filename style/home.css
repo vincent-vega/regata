@@ -5,15 +5,33 @@ html, body {
 }
 
 #map-canvas {
-	height: 61%;
+	height: 60%;
 	margin: 0;
 	padding: 0;
 }
 
 #statistics {
-	height: 20%;
-	width: 30%;
-	padding-top: 1%;
+	height: auto;
+	width: 80%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.bottom-row {
+	height: auto;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.left, .right {
+	width: 50%;
+	float: left;
+	padding-top: 6px;
+}
+
+.banner {
+	width: 70%;
 	margin-left:auto;
 	margin-right:auto;
 }
