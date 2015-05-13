@@ -6,23 +6,26 @@ myApp.controller('homeController', ['$scope',
                                     'contactGroundControl',
                                     '$interval',
                                     '$timeout', function($scope, $window, contactGroundControl, $interval, $timeout) {
-	$scope.statistics = {};
 	var perimeter = 0,
 	    prom,
 	    i,
 	    endIdx,
 	    len,
 	    dist,
-	    distanceArray = [];
-	$scope.gpsData = {};
+	    distanceArray;
 
+	$scope.statistics = {};
+	$scope.gpsData = {};
+	$scope.serviceStatus = null;
+	$scope.lastUpdate = null;
 	$scope.updateStatistics = function() {
+		distanceArray = [];
 		for (i = 0, len = dart.gpsArray.length; i < len; i++) {
 			endIdx = (i + 1)%dart.gpsArray.length,
 			dist = getDistanceFromLatLonInKm(dart.gpsArray[i].lat,
-											dart.gpsArray[i].lng,
-											dart.gpsArray[endIdx].lat,
-											dart.gpsArray[endIdx].lng);
+			                                 dart.gpsArray[i].lng,
+			                                 dart.gpsArray[endIdx].lat,
+			                                 dart.gpsArray[endIdx].lng);
 			$scope.gpsData[dart.gpsArray[i].name] = {
 				lat: dart.gpsArray[i].lat,
 				lng: dart.gpsArray[i].lng
@@ -38,6 +41,8 @@ myApp.controller('homeController', ['$scope',
 		$scope.statistics.perimeterKm = numberWithCommas(perimeter.toFixed(3));
 		$scope.statistics.perimeterM = numberWithCommas((perimeter*1000).toFixed(2));
 		$scope.statistics.distances = distanceArray;
+		$scope.serviceStatus = dart.serviceStatus.code;
+		$scope.lastUpdate = dart.serviceStatus.lastUpdateTime;
 	}
 
 	$scope.drawPath = function(elem, start, end) {
@@ -51,7 +56,7 @@ myApp.controller('homeController', ['$scope',
 			elem.present = false;
 		}
 	};
-	prom = $interval(function() { contactGroundControl(); $scope.updateStatistics; }, 10000);
+	prom = $interval(function() { contactGroundControl(); $scope.updateStatistics(); }, 10000);
 	//$interval.cancel(prom);
 	$window.onload = function () {
 		contactGroundControl();
@@ -80,13 +85,16 @@ myApp.factory('contactGroundControl', [function() {
 				lat: 25.165173368663954, lng: -76.552734375
 			}
 		];
+		var i, len;
 		dart.clearMarkers();
 		// Initialize Markers
-		for (var i = 0, len = dart.gpsArray.length; i < len; i++) {
+		for (i = 0, len = dart.gpsArray.length; i < len; i++) {
 			dart.addMarker(new google.maps.LatLng(dart.gpsArray[i].lat,
 			                                      dart.gpsArray[i].lng), dart.gpsArray[i]);
 		}
 		dart.fitMapZoom();
+		dart.serviceStatus.code = "OK";
+		dart.serviceStatus.lastUpdateTime = new Date().getTodayDateString();
 	};
 }]);
 

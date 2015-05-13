@@ -36,23 +36,25 @@
 			</div>
 			<div class="right">
 				<div class="banner">
-					<div class="alert alert-success" role="alert">
+					<div class="alert alert-success" ng-if="serviceStatus === 'OK'" role="alert">
 						<strong>Last Update:</strong>
+						{{ lastUpdate }}
 					</div>
-					<div class="alert alert-info" role="alert">
+					<div class="alert alert-info" ng-if="serviceStatus === null && lastUpdate === null" role="alert">
 						<strong>Connecting with Base Control...</strong>
 					</div>
-					<div class="alert alert-warning" role="alert">
-						<strong>Problems...</strong>
+					<div class="alert alert-warning" ng-if="serviceStatus != 'OK' && lastUpdate != null" role="alert">
+						<strong>Sync is currently experiencing problems. Last Update:</strong>
+						{{ lastUpdate }}
 					</div>
-					<div class="alert alert-danger" role="alert">
-						<strong>Unable to contact Base Control...</strong>
+					<div class="alert alert-danger" ng-if="serviceStatus === 'KO' && lastUpdate === null" role="alert">
+						<strong>Unable to contact Base Control, keep trying...</strong>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script src="js/maps-min.js"></script>
 		<script src="js/math-min.js"></script>
+		<script src="js/maps-min.js"></script>
 		<script src="js/controllers/controller-min.js"></script>
 	</body>
 </html>

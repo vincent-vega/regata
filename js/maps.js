@@ -4,6 +4,10 @@ function Dart() {
 	this.markers = [];
 	this.polyLines = {};
 	this.gpsArray = [];
+	this.serviceStatus = {
+		code: null,
+		lastUpdateTime: null
+	};
 	this.iconStyle = {
 		"boat": {
 			url: "img/motor-boat-min.png",
@@ -22,7 +26,7 @@ Dart.prototype.fitMapZoom = function() {
 		len = this.gpsArray.length;
 	for (i = 0; i < len; i++) {
 		bounds.extend(new google.maps.LatLng(this.gpsArray[i].lat,
-												this.gpsArray[i].lng));
+		                                     this.gpsArray[i].lng));
 	}
 	if (len > 0) {
 		this.map.fitBounds(bounds);
@@ -82,11 +86,17 @@ Dart.prototype.clearLine = function(label) {
 	}
 };
 
-if (dart) {
-	console.log("Defined!");
-}
-
 var dart = dart || new Dart();
+
+Date.prototype.getTodayDateString = function() {
+	var today = new Date(), hours = today.getHours(),
+	    minutes = today.getMinutes(), seconds = today.getSeconds();
+	return today.getFullYear() + "-" +
+	       (today.getMonth() + 1) + "-" +
+	       today.getDate() + "@" + (hours < 9 ? "0" + hours : hours) + ":" +
+	       (minutes < 10 ? "0" + minutes : minutes) + ":" +
+	       (seconds < 10 ? "0" + seconds : seconds);
+}
 
 function init() {
 	function initStyledMap() {
