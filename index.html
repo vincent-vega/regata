@@ -17,14 +17,16 @@
 		<div class="bottom-row" ng-controller="homeController">
 			<div class="left">
 				<ul id="statistics" class="list-group">
-					<li class="list-group-item active">
+					<li class="list-group-item active" style="padding-bottom: 5px;">
 						<h4 class="list-group-item-heading">
 							Statistics
 						</h4>
 					</li>
 					<li class="list-group-item">
-						<strong>Perimeter:</strong>
-						{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
+						<div ng-if="lastUpdate != null">
+							<strong>Perimeter:</strong>
+							{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
+						<div>
 					</li>
 					<li class="colored list-group-item" ng-repeat="(key, value) in statistics.distances" ng-model="gpsData[value.start].present" ng-init="gpsData[value.start].present=false;" ng-click="drawPath(gpsData[value.start], value.start, value.end)">
 						<strong>
