@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html manifest="manifest.appcache">
 	<head>
-		<meta http-equiv="cache-control" content="no-cache" />
-		<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-		<meta http-equiv="pragma" content="no-cache" />
 		<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
 		<script src="lib/angular.min.1.3.11.js"></script>
 		<link rel="stylesheet" href="style/bootstrap.3.2.0-min.css" />
 		<link rel="stylesheet" href="style/home-min.css" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script type="text/javascript"
-			src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD9atwS1bRUIX5NNR6NLuBBzSa4VNoOYNw&signed_in=true">
+			src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;key=AIzaSyD9atwS1bRUIX5NNR6NLuBBzSa4VNoOYNw&amp;signed_in=true">
 		</script>
+		<title>Regata</title>
 	</head>
-	<body ng-app="regata">
+	<body data-ng-app="regata">
 		<div id="map-canvas"></div>
-		<div class="bottom-row" ng-controller="homeController">
+		<div class="bottom-row" data-ng-controller="homeController">
 			<div class="left">
 				<ul id="statistics" class="list-group">
 					<li class="list-group-item active" style="padding-bottom: 5px;">
@@ -23,12 +22,12 @@
 						</h4>
 					</li>
 					<li class="list-group-item">
-						<div ng-if="lastUpdate != null">
+						<div data-ng-if="lastUpdate != null">
 							<strong>Perimeter:</strong>
 							{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
-						<div>
+						</div>
 					</li>
-					<li class="colored list-group-item" ng-repeat="(key, value) in statistics.distances" ng-model="gpsData[value.start].present" ng-init="gpsData[value.start].present=false;" ng-click="drawPath(gpsData[value.start], value.start, value.end)">
+					<li class="colored list-group-item" data-ng-repeat="(key, value) in statistics.distances" data-ng-model="gpsData[value.start].present" data-ng-init="gpsData[value.start].present=false;" data-ng-click="drawPath(gpsData[value.start], value.start, value.end)">
 						<strong>
 							{{ value.start }} - {{ value.end }}:
 						</strong>
@@ -38,18 +37,18 @@
 			</div>
 			<div class="right">
 				<div class="banner">
-					<div class="alert alert-success" ng-if="serviceStatus === 'OK'" role="alert">
+					<div class="alert alert-success" data-ng-if="serviceStatus === 'OK'" role="alert">
 						<strong>Last Update:</strong>
 						{{ lastUpdate }}
 					</div>
-					<div class="alert alert-info" ng-if="serviceStatus === null && lastUpdate === null" role="alert">
+					<div class="alert alert-info" data-ng-if="serviceStatus === null && lastUpdate === null" role="alert">
 						<strong>Connecting with Base Control...</strong>
 					</div>
-					<div class="alert alert-warning" ng-if="serviceStatus != 'OK' && lastUpdate != null" role="alert">
+					<div class="alert alert-warning" data-ng-if="serviceStatus != 'OK' && lastUpdate != null" role="alert">
 						<strong>Sync is currently experiencing problems. Last Update:</strong>
 						{{ lastUpdate }}
 					</div>
-					<div class="alert alert-danger" ng-if="serviceStatus === 'KO' && lastUpdate === null" role="alert">
+					<div class="alert alert-danger" data-ng-if="serviceStatus === 'KO' && lastUpdate === null" role="alert">
 						<strong>Unable to contact Base Control, keep trying...</strong>
 					</div>
 				</div>
