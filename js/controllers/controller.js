@@ -1,7 +1,7 @@
 "use strict";
 var myApp = angular.module("regata", []);
 
-myApp.controller('homeController', ['$scope',
+myApp.controller('HomeController', ['$scope',
                                     '$window',
                                     'contactGroundControl',
                                     '$interval',
@@ -66,8 +66,7 @@ myApp.controller('homeController', ['$scope',
 
 myApp.factory('contactGroundControl', [function() {
 	return function() {
-		dart.gpsArray = [
-			{
+		dart.gpsArray = [{
 				name: "Gps-1",
 				type: "buoy",
 				lat: 32.199904, lng: -78.783251
@@ -83,8 +82,7 @@ myApp.factory('contactGroundControl', [function() {
 				name: "Jury-Boat",
 				type: "boat",
 				lat: 25.165173368663954, lng: -76.552734375
-			}
-		];
+		}];
 		var i, len;
 		dart.clearMarkers();
 		// Initialize Markers
@@ -94,7 +92,7 @@ myApp.factory('contactGroundControl', [function() {
 		}
 		dart.fitMapZoom();
 		dart.serviceStatus.code = "OK";
-		dart.serviceStatus.lastUpdateTime = new Date().getTodayDateString();
+		dart.serviceStatus.lastUpdateTime = new Date();
 	};
 }]);
 

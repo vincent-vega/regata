@@ -14,7 +14,7 @@ function Dart() {
 			position: new google.maps.Point(15, 15)
 		},
 		"buoy": {
-			url:"img/map-marker-20.png",
+			url: "img/map-marker-20.png",
 			position: new google.maps.Point(10, 25)
 		}
 	};
@@ -88,20 +88,9 @@ Dart.prototype.clearLine = function(label) {
 
 var dart = dart || new Dart();
 
-Date.prototype.getTodayDateString = function() {
-	var today = new Date(), hours = today.getHours(),
-	    minutes = today.getMinutes(), seconds = today.getSeconds();
-	return today.getFullYear() + "-" +
-	       (today.getMonth() + 1) + "-" +
-	       today.getDate() + "@" + (hours < 9 ? "0" + hours : hours) + ":" +
-	       (minutes < 10 ? "0" + minutes : minutes) + ":" +
-	       (seconds < 10 ? "0" + seconds : seconds);
-}
-
 function init() {
 	function initStyledMap() {
-		var styles = [
-			{
+		var styles = [{
 				stylers: [
 					{ hue: "#00ffe6" },
 					{ saturation: -20 }
@@ -119,8 +108,7 @@ function init() {
 				stylers: [
 					{ visibility: "off" }
 				]
-			}
-		];
+		}];
 		// Create a new StyledMapType object, passing it the array of styles,
 		// as well as the name to be displayed on the map type control.
 		return new google.maps.StyledMapType(styles, {name: "Dart style Map"});
