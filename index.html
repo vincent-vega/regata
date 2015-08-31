@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html manifest="manifest.appcache">
 	<head>
-		<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
-		<script src="lib/angular.min.1.3.11.js"></script>
-		<link rel="stylesheet" href="style/bootstrap.3.2.0-min.css" />
-		<link rel="stylesheet" href="style/home-min.css" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script type="text/javascript"
-			src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;key=AIzaSyD9atwS1bRUIX5NNR6NLuBBzSa4VNoOYNw&amp;signed_in=true">
-		</script>
 		<title>Regata</title>
+		<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
+		<link rel="stylesheet" href="lib/bootstrap.3.3.4-min.css" />
+		<link rel="stylesheet" href="style/home-min.css" />
+		<script type="text/javascript"
+			src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;key=AIzaSyD9atwS1bRUIX5NNR6NLuBBzSa4VNoOYNw&amp;signed_in=true&libraries=geometry">
+		</script>
+		<script src="lib/jquery-2.1.4.min.js"></script>
+		<script src="lib/angular.1.3.11.min.js"></script>
 	</head>
 	<body data-ng-app="regata">
 		<div id="map-canvas"></div>
@@ -22,12 +23,12 @@
 						</h4>
 					</li>
 					<li class="list-group-item">
-						<div data-ng-if="lastUpdate != null">
+						<div data-ng-show="lastUpdate != null" data-ng-cloak>
 							<strong>Perimeter:</strong>
 							{{ statistics.perimeterKm }} Km ({{ statistics.perimeterM }} m)
 						</div>
 					</li>
-					<li class="colored list-group-item" data-ng-repeat="(key, value) in statistics.distances" data-ng-model="gpsData[value.start].present" data-ng-init="gpsData[value.start].present=false;" data-ng-click="drawPath(gpsData[value.start], value.start, value.end)">
+					<li class="colored list-group-item" data-ng-repeat="(key, value) in statistics.distances" data-ng-model="gpsData[value.start].present" data-ng-init="gpsData[value.start].present=false;" data-ng-click="drawPath($event, gpsData[value.start], value.start, value.end)">
 						<strong>
 							{{ value.start }} - {{ value.end }}:
 						</strong>
@@ -37,23 +38,46 @@
 			</div>
 			<div class="right">
 				<div class="banner">
-					<div class="alert alert-info" data-ng-if="serviceStatus === null && lastUpdate === null" role="alert">
-						<strong>Connecting with Base Control...</strong>
+					<div class="alert alert-info" data-ng-show="serviceStatus === null && lastUpdate === null" role="alert" data-ng-click="resync()" data-ng-cloak>
+						<strong>Connecting with Base Control...&nbsp;[Click to force resync]</strong>
 					</div>
-					<div class="alert alert-success" data-ng-if="serviceStatus === 'OK'" role="alert">
+					<div class="alert alert-success" data-ng-show="serviceStatus === 'OK'" role="alert" data-ng-click="resync()" data-ng-cloak>
 						<strong>Last Update:</strong>
 						{{ lastUpdate | date:'yyyy-MM-dd@HH:mm:ss' }}
+						<strong>&nbsp;[Click to force resync]</strong>
 					</div>
-					<div class="alert alert-warning" data-ng-if="serviceStatus != 'OK' && lastUpdate != null" role="alert">
+					<div class="alert alert-warning" data-ng-show="serviceStatus != 'OK' && lastUpdate != null" role="alert" data-ng-click="resync()" data-ng-cloak>
 						<strong>Sync is currently experiencing problems. Last Update:</strong>
 						{{ lastUpdate | date:'yyyy-MM-dd@HH:mm:ss' }}
+						<strong>&nbsp;[Click to force resync]</strong>
 					</div>
-					<div class="alert alert-danger" data-ng-if="serviceStatus === 'KO' && lastUpdate === null" role="alert">
-						<strong>Unable to contact Base Control, keep trying...</strong>
+					<div class="alert alert-danger" data-ng-show="serviceStatus === 'KO' && lastUpdate === null" role="alert" data-ng-click="resync()" data-ng-cloak>
+						<strong>Unable to contact Base Control, keep trying...[Click to force resync]</strong>
 					</div>
 				</div>
+				<div class="interval-control">
+					<button type="button" class="btn btn-default btn-lg interval-arrow" data-ng-click="updateProm('up')">
+						<span class="glyphicon glyphicon-chevron-up"></span>
+					</button>
+					<div class="interval-bar">
+						<div class="progress">
+							<div class="progress-bar" role="progressbar" aria-valuenow="{{ intervalValue }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ intervalValue }}%;">
+								{{ intervalValue }} sec
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn btn-default btn-lg interval-arrow-right" data-ng-click="updateProm('down')">
+						<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+					</button>
+				</div>
+				<!--<div class="interval-control">-->
+					<!--<div class="alert alert-info" role="alert">-->
+						<!--<strong>Disable sync</strong>-->
+					<!--</div>-->
+				<!--</div>-->
 			</div>
 		</div>
+		<script src="lib/bootstrap.3.3.4.min.js"></script>
 		<script src="js/math-min.js"></script>
 		<script src="js/maps-min.js"></script>
 		<script src="js/controllers/controller-min.js"></script>

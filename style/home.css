@@ -40,3 +40,32 @@ html, body {
 	background-color: #99CCFF;
 }
 
+.interval-arrow {
+	font-size: 2.5em;
+	float: left;
+}
+
+.interval-arrow-right {
+	font-size: 2.5em;
+	float: right;
+}
+
+.interval-bar {
+	float: left;
+	width: 65%;
+	padding-left: 3%;
+	/*padding-right: 3%;*/
+	margin-left:auto;
+	margin-right:auto;
+	vertical-align: middle;
+}
+
+.interval-control {
+	width: 70%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+div.alert:hover {
+	-webkit-filter: invert(100%);
+}
