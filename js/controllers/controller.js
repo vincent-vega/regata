@@ -76,7 +76,7 @@ myApp.controller('HomeController', ['$scope',
 		$scope.prom = $interval(function() { contactGroundControl(); $scope.updateStatistics(); }, $scope.intervalValue*1000);
 	}
 
-	$window.onload = function () {
+	$window.onload = function() {
 		contactGroundControl();
 		$timeout($scope.updateStatistics, 2000);
 	}
